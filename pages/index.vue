@@ -1023,6 +1023,9 @@
                 <ul>
                   <li>
                     <label>{{ $t("login_first") }}</label>
+                    <p>
+                      <login />
+                    </p>
                   </li>
                 </ul>
               </div>
@@ -1372,14 +1375,15 @@ export default {
     "pw-section": section,
     "pw-toggle": () => import("../components/ui/toggle"),
     "pw-modal": () => import("../components/ui/modal"),
-    history: () => import("../components/layout/history"),
     autocomplete: () => import("../components/ui/autocomplete"),
+    history: () => import("../components/layout/history"),
     collections: () => import("../components/collections"),
     saveRequestAs: () => import("../components/collections/saveRequestAs"),
     Editor: AceEditor,
+    environments: () => import("../components/environments"),
     inputform: () => import("../components/firebase/inputform"),
     notes: () => import("../components/firebase/feeds"),
-    environments: () => import("../components/environments"),
+    login: () => import("../components/firebase/login"),
   },
   data() {
     return {
@@ -2132,16 +2136,6 @@ export default {
             }
           }
         })()
-        // tests
-        const syntheticResponse = {
-          status: this.response.status,
-          body: this.response.body,
-          headers: this.response.headers,
-        }
-        const { testResults } = runTestScriptWithVariables(this.testScript, {
-          response: syntheticResponse,
-        })
-        this.testReports = testResults
       } catch (error) {
         console.error(error)
         if (error.response) {
@@ -2187,6 +2181,16 @@ export default {
           }
         }
       }
+      // tests
+      const syntheticResponse = {
+        status: this.response.status,
+        body: this.response.body,
+        headers: this.response.headers,
+      }
+      const { testResults } = runTestScriptWithVariables(this.testScript, {
+        response: syntheticResponse,
+      })
+      this.testReports = testResults
     },
     getQueryStringFromPath() {
       let queryString
